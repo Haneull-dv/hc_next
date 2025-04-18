@@ -1,4 +1,4 @@
-// File: C:\Users\bitcamp\Documents\hc_next new\SKYC\app\layout.tsx
+// File: C:\Users\bitcamp\Documents\HC_MSA\hc_next\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

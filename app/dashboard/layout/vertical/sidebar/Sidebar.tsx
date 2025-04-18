@@ -65,7 +65,7 @@ const Sidebar = () => {
         </svg>
       ),
       subMenus: [
-        { title: "재무상태표", href: "/dashboard/form/financial-position" },
+        { title: "재무상태표", href: "/dashboard/table/separate-balancesheet" },
         { title: "포괄손익계산서", href: "/dashboard/form/income-statement" },
         { title: "자본변동표", href: "/dashboard/form/equity-change" },
         { title: "현금흐름표", href: "/dashboard/form/cash-flow" },
