@@ -64,7 +64,7 @@ export default function SeparateBalanceSheetPage() {
       setIsInitialState(false);
 
       // fetch 캐시 방지 옵션 추가
-      const response = await fetch(`http://localhost:8085/dsdgen/dsd-source?corp_code=${corpCode}`, {
+      const response = await fetch(`http://localhost:8085/dsdgen/dsd-auto-fetch?corp_code=${corpCode}`, {
         cache: "no-store"
       });
       
