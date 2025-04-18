@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 // API 응답 데이터 타입 정의
 interface SourceData {
@@ -14,6 +14,14 @@ interface SourceData {
 interface ApiResponse {
   success: boolean;
   data: SourceData[];
+}
+
+// 그룹화된 데이터 타입 정의
+interface GroupedData {
+  [source_name: string]: {
+    [year: number]: number;
+    unit?: string;
+  };
 }
 
 export default function SeparateBalanceSheetPage() {
@@ -95,6 +103,43 @@ export default function SeparateBalanceSheetPage() {
     fetchData();
   };
 
+  // 데이터 그룹핑 및 정렬
+  const { groupedData, years, unit } = useMemo(() => {
+    const groupedData: GroupedData = {};
+    const yearsSet = new Set<number>();
+    let unit = "";
+
+    // 데이터 그룹핑
+    data.forEach((item) => {
+      if (!groupedData[item.source_name]) {
+        groupedData[item.source_name] = {};
+      }
+      
+      groupedData[item.source_name][item.year] = item.value;
+      groupedData[item.source_name].unit = item.unit;
+      yearsSet.add(item.year);
+      
+      // 단위 저장 (모든 항목의 단위가 동일하다고 가정)
+      if (!unit && item.unit) {
+        unit = item.unit;
+      }
+    });
+
+    // 연도 내림차순 정렬
+    const years = Array.from(yearsSet).sort((a, b) => b - a);
+    
+    return { groupedData, years, unit };
+  }, [data]);
+
+  // 기수 계산 함수 (연도에서 기수로 변환)
+  const calculatePeriod = (year: number): string => {
+    // 가장 최근 연도를 기준으로 기수 계산 (예: 2024년 -> 제 56기)
+    const latestYear = years[0] || 0;
+    const basePeriod = 56; // 2024년 기준 제 56기로 가정
+    const diff = latestYear - year;
+    return `제 ${basePeriod - diff}기`;
+  };
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6">재무상태표</h1>
@@ -151,43 +196,55 @@ export default function SeparateBalanceSheetPage() {
             <thead>
               <tr className="bg-gray-100">
                 <th className="px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  항목
+                  항목명
                 </th>
-                <th className="px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  코드
-                </th>
-                <th className="px-6 py-3 border-b border-gray-200 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  금액
-                </th>
-                <th className="px-6 py-3 border-b border-gray-200 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  연도
-                </th>
-                <th className="px-6 py-3 border-b border-gray-200 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  단위
-                </th>
+                {years.map((year, index) => (
+                  <th 
+                    key={year} 
+                    className={`px-6 py-3 border-b border-gray-200 text-right text-xs font-medium text-gray-600 uppercase tracking-wider ${index === years.length - 1 ? 'lastCol' : ''}`}
+                  >
+                    {calculatePeriod(year)}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {data.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                    {item.source_name}
+            <tbody>
+              {Object.keys(groupedData).map((sourceName, rowIndex) => (
+                <tr key={sourceName} className="hover:bg-gray-50">
+                  <td 
+                    className="default" 
+                    valign="middle" 
+                    align="left" 
+                    style={{paddingBottom:"5px", paddingTop:"5px", paddingLeft:"20px", paddingRight:"5px"}}
+                  >
+                    <span style={{fontFamily:"굴림", fontSize:"11pt", color:"buttontext", fontStyle:"normal", fontWeight:"normal", textDecoration:"none"}}>
+                      {sourceName}
+                    </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.corp_code}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                    {formatNumber(item.value)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                    {item.year}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                    {item.unit}
-                  </td>
+                  
+                  {years.map((year, colIndex) => (
+                    <td 
+                      key={`${sourceName}-${year}`} 
+                      className={colIndex === years.length - 1 ? "lastCol" : "default"} 
+                      valign="middle" 
+                      align="right" 
+                      style={{paddingBottom:"5px", paddingTop:"5px", paddingLeft:"5px", paddingRight:"5px"}}
+                    >
+                      <span style={{fontFamily:"굴림", fontSize:"11pt", color:"buttontext", fontStyle:"normal", fontWeight:"normal", textDecoration:"none"}}>
+                        {groupedData[sourceName][year] !== undefined ? formatNumber(groupedData[sourceName][year]) : "-"}
+                      </span>
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={years.length + 1} className="px-6 py-3 text-right text-xs font-medium text-gray-600">
+                  단위: {unit}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       ) : !loading && !error && !isInitialState ? (
