@@ -1,5 +1,5 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/table/financial-position/page": "app/dashboard/table/financial-position/page.js",
   "/dashboard/table/separate-balancesheet/page": "app/dashboard/table/separate-balancesheet/page.js"
 }
