@@ -1,42 +1,53 @@
 "use client";
 
-import React, { useState, useMemo, ReactElement } from "react";
-
-// API 응답 데이터 타입 정의
-interface SourceData {
-  id: number;
-  corp_code: string;
-  source_name: string;
-  value: number;
-  year: number;
-  unit: string;
-}
-
-interface ApiResponse {
-  success: boolean;
-  data: SourceData[];
-}
+import React, { useState, ReactElement } from "react";
 
 // 엑셀 테이블 데이터 타입
 interface TableData {
   [key: string]: any;
 }
 
+// 백엔드 응답 타입
+interface UploadResponse {
+  filename: string;
+  sheet: string;
+  data: { [key: string]: { [year: string]: number } };
+  xbrl_path: string;
+  message: string;
+}
+
+// 에러 응답 타입
+interface ErrorResponse {
+  error: string;
+}
+
+interface XBRLGenerateResponse {
+  success: boolean;
+  error?: string;
+}
+
+interface FileUploadResponse {
+  success: boolean;
+  data?: Record<string, any>;
+  error?: string;
+  xbrl_path?: string;
+  filename?: string;
+}
+
 export default function SeparateBalanceSheetPage() {
-  // 재무상태표 관련 상태
-  const [corpCode, setCorpCode] = useState<string>("");
-  const [lastFetchedCorpCode, setLastFetchedCorpCode] = useState<string>("");
-  const [data, setData] = useState<SourceData[]>([]);
+  // 상태 관리
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [isInitialState, setIsInitialState] = useState<boolean>(true);
 
   // 엑셀 업로드 관련 상태
   const [tableData, setTableData] = useState<TableData[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [fileName, setFileName] = useState<string>("");
-  const [sheetName, setSheetName] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<'balancesheet' | 'excel'>('balancesheet');
+  const [activeTab, setActiveTab] = useState<'excel_file' | 'xbrl_gen' | 'dsd_gen'>('excel_file');
+
+  // XBRL, DSD 데이터 상태
+  const [xbrlData, setXbrlData] = useState<string>("");
+  const [dsdData, setDsdData] = useState<string>("");
 
   // 숫자 포맷팅 함수 (백만 단위 변환 및 3자리 콤마 추가)
   const formatNumber = (num: number | string | null | undefined): string => {
@@ -44,7 +55,6 @@ export default function SeparateBalanceSheetPage() {
     const numValue = typeof num === 'string' ? parseFloat(num) : num;
     if (isNaN(numValue)) return "";
     
-    // 백만 단위로 변환 (나누기 1,000,000)
     const millionValue = numValue / 1000000;
     return new Intl.NumberFormat('ko-KR').format(millionValue);
   };
@@ -53,11 +63,9 @@ export default function SeparateBalanceSheetPage() {
   const formatAccountTitle = (title: string): ReactElement => {
     if (!title) return <></>;
     
-    // 앞쪽 공백 개수 계산
     const leadingSpaces = title.match(/^\s*/)?.[0].length || 0;
     const trimmedTitle = title.trim();
     
-    // 들여쓰기를 &nbsp; 로 대체 (공백 2개 = &nbsp; 1개로 계산)
     const indentation = Array(Math.floor(leadingSpaces / 2) + 1).join('\u00A0\u00A0\u00A0\u00A0');
     
     return (
@@ -76,13 +84,8 @@ export default function SeparateBalanceSheetPage() {
       return <></>;
     }
     
-    // 첫 번째 열 이름 (계정과목)
     const firstColumnHeader = headers[0];
-    
-    // 연도 헤더 (2024-12-31 → 2024.12.31)
-    const yearHeaders = headers.slice(1).map(header => {
-      return header.replace(/-/g, '.');
-    });
+    const yearHeaders = headers.slice(1).map(header => header.replace(/-/g, '.'));
     
     return (
       <div>
@@ -94,37 +97,30 @@ export default function SeparateBalanceSheetPage() {
         <table style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>
-              <th 
-                className="default" 
-                style={{
-                  paddingBottom: "5px", 
-                  paddingTop: "5px", 
-                  paddingLeft: "20px", 
-                  paddingRight: "5px", 
-                  textAlign: "left", 
-                  verticalAlign: "middle",
-                  border: "1px solid #999"
-                }}
-              >
+              <th className="default" style={{
+                paddingBottom: "5px", 
+                paddingTop: "5px", 
+                paddingLeft: "20px", 
+                paddingRight: "5px", 
+                textAlign: "left", 
+                verticalAlign: "middle",
+                border: "1px solid #999"
+              }}>
                 <span style={{fontFamily:"굴림", fontSize:"11pt", color:"buttontext"}}>
                   자산
                 </span>
               </th>
-              
               {yearHeaders.map((yearHeader, index) => (
-                <th 
-                  key={index} 
-                  className={index === yearHeaders.length - 1 ? "lastCol" : "default"} 
-                  style={{
-                    paddingBottom: "5px", 
-                    paddingTop: "5px", 
-                    paddingLeft: "5px", 
-                    paddingRight: "5px", 
-                    textAlign: "right", 
-                    verticalAlign: "middle",
-                    border: "1px solid #999"
-                  }}
-                >
+                <th key={index} className={index === yearHeaders.length - 1 ? "lastCol" : "default"} 
+                    style={{
+                      paddingBottom: "5px", 
+                      paddingTop: "5px", 
+                      paddingLeft: "5px", 
+                      paddingRight: "5px", 
+                      textAlign: "right", 
+                      verticalAlign: "middle",
+                      border: "1px solid #999"
+                    }}>
                   <span style={{fontFamily:"굴림", fontSize:"11pt", color:"buttontext"}}>
                     {yearHeader}
                   </span>
@@ -135,35 +131,29 @@ export default function SeparateBalanceSheetPage() {
           <tbody>
             {tableData.map((row, rowIndex) => (
               <tr key={rowIndex}>
-                <td 
-                  className="default" 
-                  style={{
-                    paddingBottom: "5px", 
-                    paddingTop: "5px", 
-                    paddingLeft: "20px", 
-                    paddingRight: "5px", 
-                    textAlign: "left", 
-                    verticalAlign: "middle",
-                    border: "1px solid #999"
-                  }}
-                >
+                <td className="default" style={{
+                  paddingBottom: "5px", 
+                  paddingTop: "5px", 
+                  paddingLeft: "20px", 
+                  paddingRight: "5px", 
+                  textAlign: "left", 
+                  verticalAlign: "middle",
+                  border: "1px solid #999"
+                }}>
                   {formatAccountTitle(row[firstColumnHeader])}
                 </td>
-                
                 {headers.slice(1).map((header, colIndex) => (
-                  <td 
-                    key={`${rowIndex}-${colIndex}`} 
-                    className={colIndex === headers.length - 2 ? "lastCol" : "default"} 
-                    style={{
-                      paddingBottom: "5px", 
-                      paddingTop: "5px", 
-                      paddingLeft: "5px", 
-                      paddingRight: "5px", 
-                      textAlign: "right", 
-                      verticalAlign: "middle",
-                      border: "1px solid #999"
-                    }}
-                  >
+                  <td key={`${rowIndex}-${colIndex}`} 
+                      className={colIndex === headers.length - 2 ? "lastCol" : "default"} 
+                      style={{
+                        paddingBottom: "5px", 
+                        paddingTop: "5px", 
+                        paddingLeft: "5px", 
+                        paddingRight: "5px", 
+                        textAlign: "right", 
+                        verticalAlign: "middle",
+                        border: "1px solid #999"
+                      }}>
                     <span style={{fontFamily:"굴림", fontSize:"11pt", color:"buttontext"}}>
                       {formatNumber(row[header])}
                     </span>
@@ -177,144 +167,191 @@ export default function SeparateBalanceSheetPage() {
     );
   };
 
-  // 기업코드 변경 핸들러
-  const handleCorpCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCorpCode(e.target.value);
-    // 입력 시 에러 초기화
-    if (error) {
-      setError(null);
-    }
-  };
-
-  // 시트 이름 변경 핸들러
-  const handleSheetNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSheetName(e.target.value);
-  };
-
   // 탭 변경 핸들러
-  const handleTabChange = (tab: 'balancesheet' | 'excel') => {
+  const handleTabChange = (tab: 'excel_file' | 'xbrl_gen' | 'dsd_gen') => {
     setActiveTab(tab);
   };
 
-  // 데이터 조회 함수
-  const fetchData = async () => {
-    // 기업코드 유효성 검사
-    if (!corpCode.trim()) {
-      setError("기업코드를 입력해주세요.");
-      return;
-    }
+  // 파일 변경 핸들러
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    // 기업코드 형식 검증 (8자리 숫자)
-    const corpCodeRegex = /^\d{8}$/;
-    if (!corpCodeRegex.test(corpCode)) {
-      setError("기업코드는 8자리 숫자여야 합니다.");
-      return;
-    }
+    setFileName(file.name);
+    setLoading(true);
+    setError(null);
 
-    // 중복 요청 방지
-    if (corpCode === lastFetchedCorpCode) {
-      return;
-    }
+    const formData = new FormData();
+    formData.append('file', file);
 
     try {
-      setLoading(true);
-      setError(null);
-      setIsInitialState(false);
-
-      // fetch 캐시 방지 옵션 추가
-      const response = await fetch(`http://localhost:8085/dsdgen/dsd-auto-fetch?corp_code=${corpCode}`, {
-        cache: "no-store"
+      const response = await fetch('http://localhost:8000/xbrlgen/upload', {
+        method: 'POST',
+        mode: 'cors',
+        body: formData
       });
-      
+
       if (!response.ok) {
-        throw new Error(`API 요청 실패: ${response.status}`);
+        const errorData: FileUploadResponse = await response.json();
+        throw new Error(errorData.error || `파일 업로드 실패: ${response.status}`);
       }
+
+      const result: FileUploadResponse = await response.json();
+      console.log('Upload response:', result);
       
-      const result: ApiResponse = await response.json();
-      
-      if (result.success) {
-        setData(result.data);
-        // 요청 성공 시 마지막 조회 코드 업데이트
-        setLastFetchedCorpCode(corpCode);
-      } else {
-        throw new Error("API 응답이 성공 상태가 아닙니다.");
+      if (result.data) {
+        // Convert object to array format
+        const dataArray = Object.entries(result.data).map(([key, value]) => ({
+          account: key,
+          amount: value
+        }));
+        setTableData(dataArray);
       }
+
+      // 서버에서 반환한 파일명 저장
+      if (result.filename) {
+        setFileName(result.filename);
+      }
+
+      setActiveTab('excel_file');
     } catch (err) {
-      setError(err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.");
-      console.error("데이터 가져오기 실패:", err);
+      console.error("파일 업로드 오류:", err);
+      setError(err instanceof Error ? err.message : "파일 업로드 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
   };
 
-  // 조회 버튼 클릭 핸들러
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchData();
+  // 백엔드 요청 데이터 변환 함수
+  const convertToBackendFormat = (filename: string, sheetData: TableData[]) => {
+    return {
+      filename,
+      data: sheetData
+    };
   };
 
-  // 파일 변경 핸들러
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // XML 문자열 디코딩 함수
+  const decodeXML = (xmlString: string): string => {
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(xmlString, 'text/xml');
+    const serializer = new XMLSerializer();
+    return serializer.serializeToString(dom);
+  };
 
-    // 파일명 저장
-    setFileName(file.name);
+  // XML 문자열 포맷팅 함수
+  const formatXML = (xml: string): string => {
+    try {
+      // XML 문자열에서 HTML 엔티티를 디코딩
+      const decodedXml = xml
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&amp;/g, '&');
 
-    // 파일 확장자 확인
-    const fileExt = file.name.split('.').pop()?.toLowerCase();
-    if (fileExt !== 'xlsx' && fileExt !== 'xls') {
-      setError("엑셀 파일(.xlsx, .xls)만 업로드 가능합니다.");
+      // 들여쓰기 적용
+      let formatted = '';
+      let indent = '';
+      const tab = '  '; // 2 spaces for indentation
+      
+      decodedXml.split(/>\s*</).forEach(node => {
+        if (node.match(/^\/\w/)) {
+          // 닫는 태그
+          indent = indent.substring(tab.length);
+        }
+        formatted += indent + '<' + node + '>\n';
+        if (node.match(/^<?\w[^>]*[^\/]$/) && !node.match(/\/>/)) {
+          // 여는 태그이면서 self-closing이 아닌 경우
+          indent += tab;
+        }
+      });
+
+      return formatted
+        .replace(/\s+$/g, '')  // 후행 공백 제거
+        .replace(/^\s+/g, ''); // 선행 공백 제거
+    } catch (err) {
+      console.error('XML 포맷팅 에러:', err);
+      return xml; // 에러 발생 시 원본 반환
+    }
+  };
+
+  // XBRL 생성 핸들러
+  const handleXbrlGenerate = async () => {
+    if (!fileName || !tableData.length) {
+      setError("먼저 엑셀 파일을 업로드해주세요.");
       return;
     }
 
     setLoading(true);
     setError(null);
-    setIsInitialState(false);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      // 서버에서 반환받은 파일명 그대로 사용
+      const downloadResponse = await fetch(`http://localhost:8000/xbrlgen/download/${fileName}`, {
+        method: 'GET',
+        mode: 'cors'
+      });
 
-      // 시트명을 쿼리 파라미터로 포함
-      let url = 'http://localhost:8085/xsldsd/upload';
-      if (sheetName.trim()) {
-        url += `?sheet_name=${encodeURIComponent(sheetName.trim())}`;
+      console.log('Download response status:', downloadResponse.status);
+
+      if (!downloadResponse.ok) {
+        if (downloadResponse.status === 404) {
+          throw new Error("파일을 찾을 수 없습니다. 파일을 다시 업로드해주세요.");
+        }
+        const errorData = await downloadResponse.json();
+        throw new Error(errorData.error || `XBRL 다운로드 실패: ${downloadResponse.status}`);
       }
 
-      const response = await fetch(url, {
+      const xmlText = await downloadResponse.text();
+      if (!xmlText) {
+        throw new Error("생성된 XBRL 데이터가 없습니다.");
+      }
+
+      const formattedXML = formatXML(xmlText);
+      setXbrlData(formattedXML);
+      setActiveTab('xbrl_gen');
+    } catch (err) {
+      console.error("XBRL 생성 오류:", err);
+      setError(err instanceof Error ? err.message : "XBRL 생성 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // DSD 생성 핸들러
+  const handleDsdGenerate = async () => {
+    if (!tableData.length) {
+      setError("먼저 엑셀 파일을 업로드해주세요.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('http://localhost:8000/xbrlgen/dsd', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors',
+        body: JSON.stringify({ 
+          filename: fileName.replace('.xlsx', ''),  // 확장자 제거
+          sheet_data: tableData 
+        }),
       });
 
       if (!response.ok) {
-        throw new Error(`API 요청 실패: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: `DSD 생성 실패: ${response.status}` }));
+        throw new Error(errorData.error);
       }
 
-      const result = await response.json();
-
-      // 데이터 형식 확인 및 파싱
-      // 사용자가 입력한 시트명 또는 첫 번째 시트 데이터 추출
-      const userSheetName = sheetName.trim();
-      const parsed = userSheetName && result?.sheets?.[userSheetName] 
-                    ? result.sheets[userSheetName]
-                    : Object.values(result?.sheets || {})[0] || [];
-
-      // 추출된 데이터 검증 및 처리
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        setTableData(parsed);
-        // 첫 번째 객체의 키를 테이블 헤더로 사용
-        setHeaders(Object.keys(parsed[0]));
-      } else {
-        setTableData([]);
-        setHeaders([]);
-        throw new Error("유효한 데이터가 없습니다.");
-      }
+      const result = await response.text();
+      setDsdData(result);
+      setActiveTab('dsd_gen');
     } catch (err) {
-      console.error("업로드 오류:", err);
-      setError(err instanceof Error ? err.message : "파일 업로드 중 오류가 발생했습니다.");
-      setTableData([]);
-      setHeaders([]);
+      console.error("DSD 생성 오류:", err);
+      setError(err instanceof Error ? err.message : "DSD 생성 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
@@ -328,165 +365,69 @@ export default function SeparateBalanceSheetPage() {
           <li className="mr-2">
             <button 
               className={`inline-block p-4 border-b-2 rounded-t-lg ${
-                activeTab === 'balancesheet' 
+                activeTab === 'excel_file' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               }`}
-              onClick={() => handleTabChange('balancesheet')}
+              onClick={() => handleTabChange('excel_file')}
             >
-              재무상태표
+              엑셀파일
             </button>
           </li>
           <li className="mr-2">
             <button 
               className={`inline-block p-4 border-b-2 rounded-t-lg ${
-                activeTab === 'excel' 
+                activeTab === 'xbrl_gen' 
                   ? 'border-indigo-600 text-indigo-600' 
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               }`}
-              onClick={() => handleTabChange('excel')}
+              onClick={() => handleTabChange('xbrl_gen')}
             >
-              엑셀 업로드
+              XBRL생성
+            </button>
+          </li>
+          <li className="mr-2">
+            <button 
+              className={`inline-block p-4 border-b-2 rounded-t-lg ${
+                activeTab === 'dsd_gen' 
+                  ? 'border-indigo-600 text-indigo-600' 
+                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+              }`}
+              onClick={() => handleTabChange('dsd_gen')}
+            >
+              DSD생성
             </button>
           </li>
         </ul>
       </div>
 
-      {activeTab === 'balancesheet' ? (
-        <>
-          <h1 className="text-2xl font-bold mb-6">재무상태표</h1>
-          
-          {/* 검색 폼 */}
-          <div className="mb-6">
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-grow">
-                <label htmlFor="corpCode" className="block text-sm font-medium text-gray-700 mb-1">
-                  기업코드
-                </label>
-                <input
-                  type="text"
-                  id="corpCode"
-                  value={corpCode}
-                  onChange={handleCorpCodeChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="기업코드를 입력하세요 (8자리 숫자)"
-                />
-              </div>
-              <div className="self-end">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                  disabled={loading}
-                >
-                  조회
-                </button>
-              </div>
-            </form>
-          </div>
-          
-          {loading && (
-            <div className="flex justify-center items-center h-32">
-              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
-            </div>
-          )}
-          
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              <p>{error}</p>
-            </div>
-          )}
-          
-          {isInitialState && (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-              <p className="text-blue-700">기업코드를 입력하고 조회 버튼을 클릭하세요.</p>
-            </div>
-          )}
-          
-          {!loading && !error && !isInitialState && data.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                      항목
-                    </th>
-                    <th className="px-6 py-3 border-b border-gray-200 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                      코드
-                    </th>
-                    <th className="px-6 py-3 border-b border-gray-200 text-right text-xs font-medium text-gray-600 uppercase tracking-wider">
-                      금액
-                    </th>
-                    <th className="px-6 py-3 border-b border-gray-200 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
-                      연도
-                    </th>
-                    <th className="px-6 py-3 border-b border-gray-200 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
-                      단위
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {data.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {item.source_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.corp_code}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                        {formatNumber(item.value)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                        {item.year}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                        {item.unit}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : !loading && !error && !isInitialState ? (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-              <p className="text-yellow-700">데이터가 없습니다.</p>
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold mb-6">엑셀 데이터 테이블</h1>
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <p>{error}</p>
+        </div>
+      )}
 
-          {/* 파일 업로드 영역 */}
-          <div className="mb-6">
-            <div className="flex flex-col gap-4">
-              {/* 시트 이름 입력 필드 */}
-              <div>
-                <label htmlFor="sheetName" className="block text-sm font-medium text-gray-700 mb-1">
-                  시트 이름 (선택사항)
-                </label>
-                <input
-                  type="text"
-                  id="sheetName"
-                  value={sheetName}
-                  onChange={handleSheetNameChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="예: D210000, D310000 (비워두면 전체 시트 변환)"
-                />
-                <p className="mt-1 text-sm text-gray-500">
-                  변환할 특정 시트 이름을 입력하세요. 비워두면 전체 시트가 변환됩니다.
-                </p>
-              </div>
-              
-              {/* 파일 업로드 필드 */}
+      {/* 로딩 인디케이터 */}
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
+      )}
+
+      {activeTab === 'excel_file' && (
+        <>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold mb-6">엑셀 데이터 테이블</h1>
+
+            {/* 파일 업로드 영역 */}
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   엑셀 파일 업로드
                 </label>
                 <div className="flex items-center gap-3">
-                  <label 
-                    className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                  >
+                  <label className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                     <span>파일 선택</span>
                     <input
                       type="file"
@@ -499,36 +440,70 @@ export default function SeparateBalanceSheetPage() {
                     {fileName ? fileName : "선택된 파일 없음"}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-gray-500">
-                  엑셀 파일(.xlsx, .xls)을 업로드하세요. 자동으로 처리됩니다.
-                </p>
               </div>
             </div>
+
+            {/* 데이터 변환 버튼 */}
+            {tableData.length > 0 && (
+              <div className="flex gap-4 mb-6">
+                <button
+                  onClick={handleXbrlGenerate}
+                  className="flex-1 px-4 py-2 bg-white border border-indigo-600 text-indigo-600 font-medium rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+                  disabled={loading}
+                >
+                  XBRL 생성
+                </button>
+                <button
+                  onClick={handleDsdGenerate}
+                  className="flex-1 px-4 py-2 bg-white border border-indigo-600 text-indigo-600 font-medium rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+                  disabled={loading}
+                >
+                  DSD 생성
+                </button>
+              </div>
+            )}
+
+            {/* 테이블 표시 영역 */}
+            {tableData.length > 0 ? (
+              <div className="overflow-x-auto">
+                {renderBalanceSheetTable(tableData, headers)}
+              </div>
+            ) : (
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                <p className="text-blue-700">엑셀 파일을 업로드해주세요.</p>
+              </div>
+            )}
           </div>
+        </>
+      )}
 
-          {loading && (
-            <div className="flex justify-center items-center h-32">
-              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
+      {activeTab === 'xbrl_gen' && (
+        <>
+          <h1 className="text-2xl font-bold mb-6">XBRL 데이터</h1>
+          {xbrlData ? (
+            <div className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
+              <pre className="text-sm font-mono" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                {xbrlData}
+              </pre>
+            </div>
+          ) : (
+            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+              <p className="text-blue-700">엑셀 파일을 업로드하고 XBRL 생성 버튼을 클릭해주세요.</p>
             </div>
           )}
+        </>
+      )}
 
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              <p>{error}</p>
+      {activeTab === 'dsd_gen' && (
+        <>
+          <h1 className="text-2xl font-bold mb-6">DSD 데이터</h1>
+          {dsdData ? (
+            <div className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
+              <pre className="text-sm">{dsdData}</pre>
             </div>
-          )}
-
-          {!loading && headers.length > 0 && tableData.length > 0 ? (
-            <div className="overflow-x-auto">
-              {renderBalanceSheetTable(tableData, headers)}
-            </div>
-          ) : !loading && !error && !isInitialState ? (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-              <p className="text-yellow-700">데이터가 없습니다. 엑셀 파일을 업로드해주세요.</p>
-            </div>
-          ) : isInitialState && (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-              <p className="text-blue-700">엑셀 파일을 업로드해주세요.</p>
+          ) : (
+            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+              <p className="text-blue-700">엑셀 파일을 업로드하고 DSD 생성 버튼을 클릭해주세요.</p>
             </div>
           )}
         </>
