@@ -329,7 +329,7 @@ export default function SeparateBalanceSheetPage() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/xbrlgen/dsd', {
+      const response = await fetch('http://localhost:8001/xsldsd/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
