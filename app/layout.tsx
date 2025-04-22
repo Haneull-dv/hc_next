@@ -9,8 +9,30 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Hoobank",
-  description: "The Next Generation Banking",
+  title: "Conan AI",
+  description: "AI 기반 XBRL/DSD 공시 자동화 시스템 – 보고서 작성부터 검증까지 자동화합니다.",
+  openGraph: {
+    title: "Conan AI",
+    description: "AI 기반 XBRL/DSD 공시 자동화 시스템 – 보고서 작성부터 검증까지 자동화합니다.",
+    url: "https://conan.ai.kr",
+    siteName: "Conan AI",
+    images: [
+      {
+        url: "https://conan.ai.kr/og-thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "Conan AI 썸네일",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Conan AI – XBRL / DSD 공시 자동화",
+    description: "AI 기반 XBRL/DSD 공시 자동화 시스템 – 보고서 작성부터 검증까지 자동화합니다.",
+    images: ["https://conan.ai.kr/og-thumbnail.png"],
+  },
 };
 
 export default function RootLayout({
