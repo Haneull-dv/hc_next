@@ -2,6 +2,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Logo from './components/Logo';
 
 export default function Home() {
   const router = useRouter();
@@ -11,106 +12,314 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-20 md:px-12">
-      {/* 상단 타이틀 + 설명 */}
-      <div className="max-w-5xl mx-auto mb-24 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-10 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-          XBRL/DSD 공시 자동화, 실무자의 고통을 덜다
-        </h1>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto text-gray-300 leading-relaxed">
-          상장사 재무팀 실무자들은 이중 입력, 택사노미 매핑 오류, 수작업 부담 등 다양한 어려움을 겪고 있습니다.
-        </p>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto text-gray-300 mt-6 leading-relaxed">
-          우리는 이러한 고충을 해결하는 AI 기반 자동화 시스템을 제공합니다.
-        </p>
+    <div className="min-h-screen bg-gradient-to-b from-[#0f172a] to-black text-white px-8 py-24 md:px-16">
+      {/* 로고 */}
+      <div className="flex justify-center mb-16">
+        <Logo width={240} height={60} />
       </div>
+      
+      {/* 메인 콘텐츠 - 통합 섹션 */}
+      <section className="max-w-5xl mx-auto text-center space-y-10">
+        {/* 히어로 타이틀 */}
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-snug bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+          AI가 보고서 생성부터 검증까지<br />XBRL / DSD 공시 자동화
+        </h1>
+        <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-300 mb-10 leading-relaxed">
+          더 이상 일일이 입력하지 마세요. 당신은 더 가치 있는 인력입니다
+        </p>
+        
+        {/* 실무자 고통 설명 카드 */}
+        <div className="mt-20 mb-20 max-w-3xl mx-auto rounded-xl bg-gradient-to-br from-[#1c2444]/80 to-[#111827]/80 border border-indigo-500/20 p-10 text-left shadow-xl">
+          <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent mb-6">AI로 실무자의 고통을 덜다</h3>
+          <div className="space-y-4">
+            <p className="text-base text-gray-300 leading-relaxed">
+              XBRL/DSD 공시를 담당하는 실무자들은 이중 입력, 텍사노미 매핑 오류, 수작업 기반 작성 등 
+              복잡하고 반복적인 업무로 지속적인 어려움을 겪고 있습니다.
+            </p>
+            <p className="text-base text-gray-300 leading-relaxed">
+              저희는 이러한 구조적 문제를 AI 기반 자동화 기술로 해결하여, 
+              공시 실무의 효율성과 정확성을 모두 확보합니다.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* 중간 콘텐츠 (2열 × 2행 카드 구성) */}
-      <div className="max-w-6xl mx-auto mb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
-          {/* 카드 1 */}
-          <div className="bg-[#1a1a2e] rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold mb-4 text-white">문제 - DSD/XBRL 이중입력</h2>
-              <p className="text-gray-300 mb-8">같은 재무정보를 두 번 입력하며 발생하는 시간 낭비와 수치 불일치</p>
-              <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4">해결책:</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  <li>엑셀 재무제표 파일 업로드 한 번으로</li>
-                  <li>XBRL 및 DSD 문서를 자동 생성</li>
-                  <li>데이터 일관성 자동 검증 포함</li>
-                </ul>
+      {/* 실무자 인터뷰 블록 */}
+      <section className="max-w-6xl mx-auto py-16 px-4">
+        <h3 className="text-3xl text-center font-bold text-white mb-12">실무자들은 지금도 불편함을 호소하고 있습니다</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* 첫 번째 인터뷰 카드 */}
+          <div className="bg-[#1e293b] p-8 rounded-xl shadow-lg border border-indigo-500/20 relative">
+            <div className="absolute top-4 left-4 text-5xl text-indigo-500/30 font-serif">❝</div>
+            <div className="pl-8 pt-6 relative z-10">
+              <p className="text-sm font-light text-gray-200 leading-relaxed mb-4">
+                DSD 보고서는 전부 수기로 key-in해야 해서 시간이 오래 걸리고 단위(백만) 조정도 자주 해야 해요. 그걸 AI가 자동 조정해주면 정말 좋겠어요.
+              </p>
+              <p className="text-sm font-light text-gray-200 leading-relaxed mb-6">
+                XBRL, DSD 모두 공동작업이 안 돼서 메일로 파일 주고받는 것도 너무 불편합니다.
+              </p>
+              <p className="text-sm font-semibold text-gray-300">– S** 계열사 재무팀</p>
+            </div>
+          </div>
+          
+          {/* 두 번째 인터뷰 카드 */}
+          <div className="bg-[#1e293b] p-8 rounded-xl shadow-lg border border-indigo-500/20 relative">
+            <div className="absolute top-4 left-4 text-5xl text-indigo-500/30 font-serif">❝</div>
+            <div className="pl-8 pt-6 relative z-10">
+              <p className="text-sm font-light text-gray-200 leading-relaxed mb-4">
+                XBRL에서 적절한 택사노미 요소를 찾는 것도 어렵고, DSD → XBRL로 작성하면 형식이 달라서 오류가 자주 발생해요.
+              </p>
+              <p className="text-sm font-light text-gray-200 leading-relaxed mb-6">
+                작성자 입장에선 시간과 인력 소모가 너무 큽니다.
+              </p>
+              <p className="text-sm font-semibold text-gray-300">– L** 계열사 재무팀</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 중간 섹션 - 실무자 고충 vs 자동화 솔루션 */}
+      <section className="max-w-6xl mx-auto mb-20">
+        {/* 솔루션 섹션 헤더 */}
+        <div className="relative w-full text-center mb-12 mt-20">
+          <p className="absolute inset-0 flex items-center justify-center text-sm text-gray-500 opacity-20 z-0 blur-sm max-w-3xl mx-auto">
+            현재도 수많은 DART 공시 담당자들이 반복되는 작성 환경에 불편함을 호소하고 있습니다.
+          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold relative z-10 flex justify-center items-center">
+            <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent px-6">실무자 고충</span>
+            <span className="text-gray-500 text-2xl opacity-80 px-4">vs</span>
+            <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent px-6">자동화 솔루션</span>
+          </h2>
+        </div>
+        
+        {/* 문제/해결책 1:1 대응 그리드 */}
+        <div className="space-y-10">
+          {/* 행 1: 이중입력 문제 */}
+          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+            {/* 왼쪽 - 문제 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">DSD/XBRL 이중입력</p>
+                <p className="text-gray-300 leading-relaxed">
+                  동일 재무정보를 DSD와 XBRL에 각각 입력하며 발생하는 시간 낭비와 데이터 불일치로 인한 검증 문제
+                </p>
+              </div>
+            </div>
+            
+            {/* 가운데 - 화살표 */}
+            <div className="flex items-center justify-center">
+              <span className="text-gray-300 text-3xl opacity-90">➜</span>
+            </div>
+            
+            {/* 오른쪽 - 솔루션 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">엑셀 업로드 → XBRL & DSD 자동 생성</p>
+                <div className="space-y-3">
+                  <p className="text-gray-300 leading-relaxed">
+                    엑셀 재무제표 파일 업로드 한 번으로 XBRL 및 DSD 문서 동시 처리
+                  </p>
+                  <p className="text-gray-300 leading-relaxed">
+                    데이터 일관성 자동 검증 및 오류 알림으로 이중 입력 부담 해소
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* 카드 2 */}
-          <div className="bg-[#1a1a2e] rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold mb-4 text-white">문제 - 택사노미 매핑 오류</h2>
-              <p className="text-gray-300 mb-8">적절한 텍소노미 요소를 찾지 못하거나 속성 불일치로 오류 발생</p>
-              <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4">해결책:</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  <li>AI 기반 택소노미 추천 시스템</li>
-                  <li>기간 속성 자동 필터링</li>
-                  <li>유사 계정 자동 매핑</li>
-                </ul>
+          
+          {/* 행 2: 텍소노미 매핑 */}
+          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+            {/* 왼쪽 - 문제 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">텍소노미 매핑 오류</p>
+                <p className="text-gray-300 leading-relaxed">
+                  적절한 텍소노미 요소 선정 어려움과 속성 불일치로 인한 오류 발생 및 검증 실패
+                </p>
+              </div>
+            </div>
+            
+            {/* 가운데 - 화살표 */}
+            <div className="flex items-center justify-center">
+              <span className="text-gray-300 text-3xl opacity-90">➜</span>
+            </div>
+            
+            {/* 오른쪽 - 솔루션 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">AI 기반 텍소노미 추천 시스템</p>
+                <div className="space-y-3">
+                  <p className="text-gray-300 leading-relaxed">
+                    기간 속성 자동 필터링 및 최적화로 오류 발생 최소화
+                  </p>
+                  <p className="text-gray-300 leading-relaxed">
+                    유사 계정과목 자동 매핑 및 비교 분석으로 텍소노미 선택 정확도 향상
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* 카드 3 */}
-          <div className="bg-[#1a1a2e] rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold mb-4 text-white">문제 - 편집기 불편 및 공동작업 불가</h2>
-              <p className="text-gray-300 mb-8">낯선 UI와 비협업 환경으로 반복된 수작업 및 피드백 지연</p>
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4">해결책:</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  <li>엑셀 유사 웹 UI 제공</li>
-                  <li>실시간 협업 및 댓글 시스템</li>
-                  <li>버전 관리 및 히스토리 추적</li>
-                </ul>
+          
+          {/* 행 3: UI 비직관성 */}
+          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+            {/* 왼쪽 - 문제 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">편집기 UI 비직관성</p>
+                <p className="text-gray-300 leading-relaxed">
+                  낯선 인터페이스와 비협업적 환경으로 인한 반복 수정 및 효율성 저하
+                </p>
+              </div>
+            </div>
+            
+            {/* 가운데 - 화살표 */}
+            <div className="flex items-center justify-center">
+              <span className="text-gray-300 text-3xl opacity-90">➜</span>
+            </div>
+            
+            {/* 오른쪽 - 솔루션 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">협업형 인터페이스와 버전 관리</p>
+                <div className="space-y-3">
+                  <p className="text-gray-300 leading-relaxed">
+                    엑셀과 유사한 직관적 웹 기반 인터페이스로 학습 곡선 최소화
+                  </p>
+                  <p className="text-gray-300 leading-relaxed">
+                    실시간 협업 및 코멘트 기능 내장, 버전 관리 및 변경 이력 추적 시스템
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* 카드 4 */}
-          <div className="bg-[#1a1a2e] rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold mb-4 text-white">문제 - 반복 검증 및 오류 대응 부담</h2>
-              <p className="text-gray-300 mb-8">수치 대조, 전기 대비 변동 확인 등 반복 작업으로 인한 리소스 소모</p>
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-4">해결책:</h3>
-                <ul className="list-disc list-inside space-y-3">
-                  <li>항목 간 수식 자동 검증 (자산=부채+자본 등)</li>
-                  <li>전기 대비 증감 자동 분석 리포트 생성</li>
-                  <li>오류 메시지 자동 해석 및 수정 가이드</li>
-                </ul>
+          
+          {/* 행 4: 반복 검증 */}
+          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+            {/* 왼쪽 - 문제 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">반복 검증 작업</p>
+                <p className="text-gray-300 leading-relaxed">
+                  계정 간 수치 대조, 전기 대비 변동 확인 등 수작업 검증으로 인한 리소스 낭비
+                </p>
+              </div>
+            </div>
+            
+            {/* 가운데 - 화살표 */}
+            <div className="flex items-center justify-center">
+              <span className="text-gray-300 text-3xl opacity-90">➜</span>
+            </div>
+            
+            {/* 오른쪽 - 솔루션 카드 */}
+            <div className="w-full max-w-md">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-xl mb-4 text-white">자동 검증 및 분석 리포트</p>
+                <div className="space-y-3">
+                  <p className="text-gray-300 leading-relaxed">
+                    회계 원칙 기반 자동 검증(자산=부채+자본 등) 및 전기 대비 증감 자동 분석
+                  </p>
+                  <p className="text-gray-300 leading-relaxed">
+                    오류 메시지 자동 해석 및 수정 가이드 제공으로 검증 시간 단축
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* 하단 CTA 버튼 */}
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="flex flex-col sm:flex-row justify-center gap-6 md:gap-10">
+      {/* CTA 버튼 - 솔루션 섹션 다음에 위치 */}
+      <section className="max-w-5xl mx-auto text-center mb-20">
+        <div className="flex flex-col sm:flex-row justify-center gap-6 mt-6">
           <button
-            onClick={() => handleButtonClick('/dashboard')}
-            className="px-10 py-5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-lg font-semibold transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50"
+            onClick={() => handleButtonClick('/')}
+            className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-xl font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 focus:outline-none mx-auto sm:mx-0"
           >
-            시연 요청하기
+            시연 해보기
           </button>
           <button
-            onClick={() => handleButtonClick('/dashboard')}
-            className="px-10 py-5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full text-lg font-semibold transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+            onClick={() => handleButtonClick('/features')}
+            className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0"
           >
             상세 기능 보기
           </button>
         </div>
-      </div>
+      </section>
+
+      {/* 팀원 소개 섹션 */}
+      <section className="bg-[#0f172a] text-white py-16 px-6 mt-24 mb-20">
+        <div className="text-center space-y-4">
+          <p className="text-sm font-medium text-blue-400">실무 전문성과 창의성을 겸비한</p>
+          <h2 className="text-3xl font-bold">"Always Curious, Always Building" 철학을 갖춘<br />ConanAI 프로젝트 팀</h2>
+          <p className="text-gray-400 text-sm">ConanAI 프로젝트를 함께 만든 사람들입니다.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4 mt-12 max-w-4xl mx-auto">
+          {/* 천준영 */}
+          <div className="flex flex-col items-center text-center space-y-4">
+            <img src="/images/junyeongc.png" alt="천준영 팀원" className="w-48 h-48 object-cover rounded-xl shadow-lg" />
+            <h3 className="text-xl font-semibold">🙋‍♂️ 천준영 팀원</h3>
+            <p className="text-base text-gray-300 leading-relaxed">
+              AI 기반 프로젝트 아키텍처 리드<br />
+              백엔드 구조 설계 및 FastAPI 기술 총괄
+            </p>
+            <div className="text-sm text-gray-400">
+              <p>- 로그인/회원가입 서비스 담당</p>
+              <p>- DSD공시 서비스 담당</p>
+            </div>
+          </div>
+
+          {/* 김하늘 */}
+          <div className="flex flex-col items-center text-center space-y-4">
+            <img src="/images/haneull.png" alt="김하늘 팀원" className="w-48 h-48 object-cover rounded-xl shadow-lg" />
+            <h3 className="text-xl font-semibold">🙋‍♀️ 김하늘 팀원</h3>
+            <p className="text-base text-gray-300 leading-relaxed">
+              프로젝트 운영 및 사용자 중심 기능 기획<br />
+              사용자 피드백 기반 기능 개선 주도<br />
+              프론트엔드 구조 설계 및 next.js 기술 총괄
+            </p>
+            <div className="text-sm text-gray-400">
+              <p>- XBRL공시 서비스 담당</p>
+              <p>- AI 택소노미 매핑 서비스 담당</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 고객 문의 섹션 */}
+      <section className="w-full bg-[#1a1a2e] text-white py-14 px-6 border-t border-gray-800">
+        <div className="max-w-screen-xl mx-auto text-center space-y-6">
+          <h2 className="text-2xl font-bold">
+            🗣 구현이 필요하신 기능이 있으신가요?
+          </h2>
+          
+          <p className="text-base md:text-lg text-gray-300">
+            더 나은 서비스를 제공하기 위해 사용자님의 소중한 피드백을 기다리고 있습니다.<br />
+            아래 담당자에게 문의해 주시면 신속히 응답드리겠습니다.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-4 text-left pt-8 px-4 md:px-12 max-w-3xl mx-auto">
+            {/* 천준영 */}
+            <div className="space-y-2 pl-10 md:pl-12">
+              <h3 className="text-lg font-semibold text-white">📩 천준영</h3>
+              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:junyeongc1000@gmail.com" className="underline hover:text-blue-300 transition-colors">junyeongc1000@gmail.com</a></p>
+              <p className="text-base font-medium text-gray-300">전화: 010-2782-1102</p>
+            </div>
+
+            {/* 김하늘 */}
+            <div className="space-y-2 pl-14 md:pl-24">
+              <h3 className="text-lg font-semibold text-white">📩 김하늘</h3>
+              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:haneull@gmail.com" className="underline hover:text-blue-300 transition-colors">haneull@gmail.com</a></p>
+              <p className="text-base font-medium text-gray-300">전화: 010-9165-7262</p>
+            </div>
+          </div>
+
+          <p className="text-sm text-gray-400 mt-8">
+            © ConanAI 팀은 수집된 정보를 피드백 응답 및 서비스 개선 이외의 목적으로 사용하지 않습니다.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
