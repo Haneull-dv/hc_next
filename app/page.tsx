@@ -233,7 +233,7 @@ export default function Home() {
       <section className="max-w-5xl mx-auto text-center mb-20">
         <div className="flex flex-col sm:flex-row justify-center gap-6 mt-6">
           <button
-            onClick={() => handleButtonClick('/')}
+            onClick={() => handleButtonClick('/dashboard')}
             className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-xl font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 focus:outline-none mx-auto sm:mx-0"
           >
             시연 해보기
@@ -259,9 +259,9 @@ export default function Home() {
           {/* 천준영 */}
           <div className="flex flex-col items-center text-center space-y-4">
             <img src="/images/junyeongc.png" alt="천준영 팀원" className="w-48 h-48 object-cover rounded-xl shadow-lg" />
-            <h3 className="text-xl font-semibold">🙋‍♂️ 천준영 팀원</h3>
+            <h3 className="text-xl font-semibold">🙋‍♂️ 팀원 천준영</h3>
             <p className="text-base text-gray-300 leading-relaxed">
-              AI 기반 프로젝트 아키텍처 리드<br />
+              사용자 피드백 기반 기능 개선 주도<br />
               백엔드 구조 설계 및 FastAPI 기술 총괄
             </p>
             <div className="text-sm text-gray-400">
@@ -273,10 +273,9 @@ export default function Home() {
           {/* 김하늘 */}
           <div className="flex flex-col items-center text-center space-y-4">
             <img src="/images/haneull.png" alt="김하늘 팀원" className="w-48 h-48 object-cover rounded-xl shadow-lg" />
-            <h3 className="text-xl font-semibold">🙋‍♀️ 김하늘 팀원</h3>
+            <h3 className="text-xl font-semibold">🙋‍♀️ 팀원 김하늘</h3>
             <p className="text-base text-gray-300 leading-relaxed">
               프로젝트 운영 및 사용자 중심 기능 기획<br />
-              사용자 피드백 기반 기능 개선 주도<br />
               프론트엔드 구조 설계 및 next.js 기술 총괄
             </p>
             <div className="text-sm text-gray-400">
