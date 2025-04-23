@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { SidebarProvider, useSidebar } from './layout/vertical/SidebarContext';
+import { ThemeProvider } from '../context/ThemeContext';
 import Sidebar from './layout/vertical/sidebar/Sidebar';
 import Header from './layout/vertical/header/Header';
 
@@ -10,7 +11,7 @@ const DashboardContent = ({ children }: { children: React.ReactNode }) => {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   return (
-    <div className="flex w-full min-h-screen bg-gray-50 font-pretendard">
+    <div className="flex w-full min-h-screen bg-gray-50 dark:bg-gray-900 font-pretendard text-gray-900 dark:text-gray-100">
       {/* 모바일에서 오버레이 */}
       {isSidebarOpen && (
         <div
@@ -51,8 +52,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <DashboardContent>{children}</DashboardContent>
-    </SidebarProvider>
+    <ThemeProvider>
+      <SidebarProvider>
+        <DashboardContent>{children}</DashboardContent>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }

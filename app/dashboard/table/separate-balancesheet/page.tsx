@@ -367,16 +367,16 @@ export default function SeparateBalanceSheetPage() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
+    <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900">
       {/* 탭 네비게이션 */}
-      <div className="mb-6 border-b border-gray-200">
+      <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
             <button 
               className={`inline-block p-4 border-b-2 rounded-t-lg ${
                 activeTab === 'excel_file' 
-                  ? 'border-indigo-600 text-indigo-600' 
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400' 
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
               onClick={() => handleTabChange('excel_file')}
             >
@@ -386,21 +386,9 @@ export default function SeparateBalanceSheetPage() {
           <li className="mr-2">
             <button 
               className={`inline-block p-4 border-b-2 rounded-t-lg ${
-                activeTab === 'xbrl_gen' 
-                  ? 'border-indigo-600 text-indigo-600' 
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
-              }`}
-              onClick={() => handleTabChange('xbrl_gen')}
-            >
-              XBRL생성
-            </button>
-          </li>
-          <li className="mr-2">
-            <button 
-              className={`inline-block p-4 border-b-2 rounded-t-lg ${
                 activeTab === 'dsd_gen' 
-                  ? 'border-indigo-600 text-indigo-600' 
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400' 
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
               onClick={() => handleTabChange('dsd_gen')}
             >
@@ -410,9 +398,21 @@ export default function SeparateBalanceSheetPage() {
           <li className="mr-2">
             <button 
               className={`inline-block p-4 border-b-2 rounded-t-lg ${
+                activeTab === 'xbrl_gen' 
+                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400' 
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+              }`}
+              onClick={() => handleTabChange('xbrl_gen')}
+            >
+              XBRL생성
+            </button>
+          </li>
+          <li className="mr-2">
+            <button 
+              className={`inline-block p-4 border-b-2 rounded-t-lg ${
                 activeTab === 'open_dart' 
-                  ? 'border-indigo-600 text-indigo-600' 
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400' 
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
               onClick={() => handleTabChange('open_dart')}
             >
@@ -424,95 +424,24 @@ export default function SeparateBalanceSheetPage() {
 
       {/* 엑셀파일 탭 */}
       {activeTab === 'excel_file' && (
-        <div className="flex items-center justify-center h-64">
-          <p className="text-xl text-gray-600">구현중입니다</p>
-        </div>
-      )}
-
-      {/* XBRL생성 탭 */}
-      {activeTab === 'xbrl_gen' && (
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6">XBRL 데이터</h1>
-          
-          {/* 에러 메시지 */}
-          {xbrlError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              <p>{xbrlError}</p>
+          <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">엑셀파일</h1>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-center h-48">
+              <p className="text-xl text-gray-600 dark:text-gray-300">구현중입니다</p>
             </div>
-          )}
-          
-          {/* 로딩 인디케이터 */}
-          {xbrlLoading && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
-            </div>
-          )}
-          
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                엑셀 파일 업로드
-              </label>
-              <div className="flex items-center gap-3">
-                <label className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                  <span>파일 선택</span>
-                  <input
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleXbrlFileChange}
-                    className="hidden"
-                  />
-                </label>
-                <span className="text-gray-600 text-sm">
-                  {xbrlFileName || "선택된 파일 없음"}
-                </span>
-              </div>
-            </div>
-            
-            <button
-              onClick={handleXbrlUpload}
-              disabled={xbrlLoading || !xbrlFile}
-              className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-            >
-              XBRL 변환
-            </button>
-            
-            {isXbrlDownloaded && (
-              <button
-                onClick={handleDownloadXml}
-                className="ml-3 px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
-              >
-                XML 다운로드
-              </button>
-            )}
           </div>
-          
-          {/* XML 콘텐츠 표시 영역 */}
-          {xbrlContent ? (
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold mb-2">변환된 XBRL XML</h2>
-              <div className="overflow-x-auto bg-gray-100 p-4 rounded-md">
-                <pre className="text-xs font-mono whitespace-pre-wrap break-all">
-                  {xbrlContent}
-                </pre>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p className="text-blue-700">엑셀 파일을 업로드한 후 XBRL로 변환해주세요.</p>
-            </div>
-          )}
         </div>
       )}
 
       {/* DSD생성 탭 */}
       {activeTab === 'dsd_gen' && (
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6">DSD 데이터</h1>
+          <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">DSD 데이터</h1>
           
           {/* 에러 메시지 */}
           {dsdError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
               <p>{dsdError}</p>
             </div>
           )}
@@ -524,13 +453,13 @@ export default function SeparateBalanceSheetPage() {
             </div>
           )}
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 엑셀 파일 업로드
               </label>
               <div className="flex items-center gap-3">
-                <label className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                <label className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
                   <span>파일 선택</span>
                   <input
                     type="file"
@@ -539,14 +468,14 @@ export default function SeparateBalanceSheetPage() {
                     className="hidden"
                   />
                 </label>
-                <span className="text-gray-600 text-sm">
+                <span className="text-gray-600 dark:text-gray-300 text-sm">
                   {dsdFileName || "선택된 파일 없음"}
                 </span>
               </div>
             </div>
             
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 시트 이름
               </label>
               <input
@@ -554,14 +483,14 @@ export default function SeparateBalanceSheetPage() {
                 value={sheetName}
                 onChange={(e) => setSheetName(e.target.value)}
                 placeholder="예: D210000"
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:bg-gray-700 dark:text-gray-200"
               />
             </div>
             
             <button
               onClick={handleDsdUpload}
               disabled={dsdLoading}
-              className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50"
             >
               업로드 및 변환
             </button>
@@ -573,8 +502,84 @@ export default function SeparateBalanceSheetPage() {
               {renderBalanceSheetTable(dsdTableData, dsdHeaders)}
             </div>
           ) : (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p className="text-blue-700">엑셀 파일과 시트 이름을 입력한 후 업로드해주세요.</p>
+            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-700 p-4">
+              <p className="text-blue-700 dark:text-blue-300">엑셀 파일과 시트 이름을 입력한 후 업로드해주세요.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* XBRL생성 탭 */}
+      {activeTab === 'xbrl_gen' && (
+        <div className="p-6">
+          <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">XBRL 데이터</h1>
+          
+          {/* 에러 메시지 */}
+          {xbrlError && (
+            <div className="bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
+              <p>{xbrlError}</p>
+            </div>
+          )}
+          
+          {/* 로딩 인디케이터 */}
+          {xbrlLoading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
+            </div>
+          )}
+          
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                엑셀 파일 업로드
+              </label>
+              <div className="flex items-center gap-3">
+                <label className="flex cursor-pointer items-center justify-center px-4 py-2 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors">
+                  <span>파일 선택</span>
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleXbrlFileChange}
+                    className="hidden"
+                  />
+                </label>
+                <span className="text-gray-600 dark:text-gray-300 text-sm">
+                  {xbrlFileName || "선택된 파일 없음"}
+                </span>
+              </div>
+            </div>
+            
+            <button
+              onClick={handleXbrlUpload}
+              disabled={xbrlLoading || !xbrlFile}
+              className="px-4 py-2 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50"
+            >
+              XBRL 변환
+            </button>
+            
+            {isXbrlDownloaded && (
+              <button
+                onClick={handleDownloadXml}
+                className="ml-3 px-4 py-2 bg-green-600 dark:bg-green-700 text-white font-medium rounded-md hover:bg-green-700 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors"
+              >
+                XML 다운로드
+              </button>
+            )}
+          </div>
+          
+          {/* XML 콘텐츠 표시 영역 */}
+          {xbrlContent ? (
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">변환된 XBRL XML</h2>
+              <div className="overflow-x-auto bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
+                <pre className="text-xs font-mono whitespace-pre-wrap break-all dark:text-gray-200">
+                  {xbrlContent}
+                </pre>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-700 p-4 mt-4">
+              <p className="text-blue-700 dark:text-blue-300">엑셀 파일을 업로드한 후 XBRL로 변환해주세요.</p>
             </div>
           )}
         </div>
@@ -583,17 +588,17 @@ export default function SeparateBalanceSheetPage() {
       {/* 오픈다트 탭 */}
       {activeTab === 'open_dart' && (
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6">오픈다트 API</h1>
+          <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">OpenDART 데이터</h1>
           
-          <div className="bg-gray-50 p-4 mb-6 rounded-lg border border-gray-200">
-            <p className="text-gray-700">
+          <div className="bg-gray-50 dark:bg-gray-700 p-4 mb-6 rounded-lg border border-gray-200 dark:border-gray-600">
+            <p className="text-gray-700 dark:text-gray-300">
               기업의 재무상태표 관련 계정과목을 불러옵니다.
             </p>
           </div>
           
           {/* 에러 메시지 */}
           {openDartError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
               <p>{openDartError}</p>
             </div>
           )}
@@ -605,9 +610,9 @@ export default function SeparateBalanceSheetPage() {
             </div>
           )}
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 기업코드 입력
               </label>
               <div className="flex items-center gap-3">
@@ -616,17 +621,17 @@ export default function SeparateBalanceSheetPage() {
                   value={corpCode}
                   onChange={handleCorpCodeChange}
                   placeholder="8자리 숫자 (예: 00126380)"
-                  className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:bg-gray-700 dark:text-gray-200"
                 />
                 <button
                   onClick={handleFetchOpenDartData}
                   disabled={openDartLoading || !corpCode}
-                  className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-indigo-600 dark:bg-indigo-700 text-white font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50"
                 >
                   조회
                 </button>
               </div>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 기업고유번호는 8자리 숫자로 입력해주세요.
               </p>
             </div>
@@ -635,27 +640,27 @@ export default function SeparateBalanceSheetPage() {
           {/* 데이터 표시 영역 */}
           {openDartData.length > 0 ? (
             <div className="overflow-x-auto mt-6">
-              <table className="min-w-full divide-y divide-gray-200 border">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border dark:border-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     {Object.keys(openDartData[0]).map((key) => (
                       <th
                         key={key}
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border dark:border-gray-600"
                       >
                         {key}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {openDartData.map((item, index) => (
                     <tr key={index}>
                       {Object.entries(item).map(([key, value]) => (
                         <td
                           key={`${index}-${key}`}
-                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border"
+                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 border dark:border-gray-600"
                         >
                           {value !== null && value !== undefined ? String(value) : ''}
                         </td>
@@ -666,8 +671,8 @@ export default function SeparateBalanceSheetPage() {
               </table>
             </div>
           ) : (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p className="text-blue-700">
+            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-700 p-4">
+              <p className="text-blue-700 dark:text-blue-300">
                 {openDartLoading 
                   ? "데이터를 불러오는 중입니다..." 
                   : "기업코드를 입력하고 조회 버튼을 눌러주세요."}

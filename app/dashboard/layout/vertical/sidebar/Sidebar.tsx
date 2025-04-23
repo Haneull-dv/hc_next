@@ -113,24 +113,18 @@ const Sidebar = () => {
 
   return (
     <div 
-      className={`w-64 bg-white shadow-md h-screen fixed left-0 top-0 overflow-y-auto transition-transform duration-300 ease-in-out z-20 font-pretendard ${
+      className={`w-64 bg-white dark:bg-gray-900 shadow-md dark:shadow-gray-800 h-screen fixed left-0 top-0 overflow-y-auto transition-transform duration-300 ease-in-out z-20 font-pretendard ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="p-4 border-b flex items-center">
+      <div className="p-4 border-b dark:border-gray-700 flex items-center">
         <Link href="/" className="flex items-center">
-          <span className="text-2xl font-bold text-cyan-500">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8" />
-              <circle cx="12" cy="10" r="3" fill="currentColor" />
-            </svg>
-            Conan<span className="text-blue-500">AI</span>
-          </span>
+          <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">MatDash</span>
         </Link>
       </div>
       <div className="p-4">
         <div className="mb-6">
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">홈</h2>
+          <h2 className="text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider mb-2">홈</h2>
           <ul className="space-y-1">
             {menuItems.map((item, index) => (
               <li key={index}>
@@ -147,12 +141,12 @@ const Sidebar = () => {
                     }}
                     className={`flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
                       pathname === item.href || pathname.startsWith(item.href + "/")
-                        ? "bg-indigo-50 text-indigo-600"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300"
+                        : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   >
                     <div className="flex items-center">
-                      <span className="mr-3">{item.icon}</span>
+                      <span className="mr-3 text-gray-500 dark:text-gray-400">{item.icon}</span>
                       {item.title}
                     </div>
                     {item.subMenus && item.subMenus.length > 0 && (
@@ -170,8 +164,8 @@ const Sidebar = () => {
                             onClick={(e) => handleSubMenuClick(subItem.href, e)}
                             className={`block py-1.5 px-3 rounded-md text-sm font-medium cursor-pointer transition-all ${
                               pathname === subItem.href
-                                ? "text-indigo-600"
-                                : "text-gray-600 hover:text-indigo-500"
+                                ? "text-indigo-600 dark:text-indigo-300"
+                                : "text-gray-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-200"
                             }`}
                           >
                             {subItem.title}
@@ -187,7 +181,7 @@ const Sidebar = () => {
         </div>
         
         <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">인증</h2>
+          <h2 className="text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider mb-2">인증</h2>
           <ul className="space-y-1">
             {authItems.map((item, index) => (
               <li key={index}>
@@ -199,11 +193,11 @@ const Sidebar = () => {
                   }}
                   className={`flex items-center px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
                     pathname === item.href
-                      ? "bg-indigo-50 text-indigo-600"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300"
+                      : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
-                  <span className="mr-3">{item.icon}</span>
+                  <span className="mr-3 text-gray-500 dark:text-gray-400">{item.icon}</span>
                   {item.title}
                 </a>
               </li>
