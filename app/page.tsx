@@ -309,7 +309,7 @@ export default function Home() {
             {/* 김하늘 */}
             <div className="space-y-2 pl-14 md:pl-24">
               <h3 className="text-lg font-semibold text-white">📩 김하늘</h3>
-              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:haneull@gmail.com" className="underline hover:text-blue-300 transition-colors">haneull@gmail.com</a></p>
+              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:haneull.dv@gmail.com" className="underline hover:text-blue-300 transition-colors">haneull.dv@gmail.com</a></p>
               <p className="text-base font-medium text-gray-300">전화: 010-9165-7262</p>
             </div>
           </div>
