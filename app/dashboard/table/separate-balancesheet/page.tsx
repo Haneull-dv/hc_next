@@ -585,6 +585,12 @@ export default function SeparateBalanceSheetPage() {
         <div className="p-6">
           <h1 className="text-2xl font-bold mb-6">오픈다트 API</h1>
           
+          <div className="bg-gray-50 p-4 mb-6 rounded-lg border border-gray-200">
+            <p className="text-gray-700">
+              기업의 재무상태표 관련 계정과목을 불러옵니다.
+            </p>
+          </div>
+          
           {/* 에러 메시지 */}
           {openDartError && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
