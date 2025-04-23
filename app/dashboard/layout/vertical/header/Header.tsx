@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { useSidebar } from "../SidebarContext";
 
 const Header = () => {
@@ -28,7 +29,9 @@ const Header = () => {
               />
             </svg>
           </button>
-          <span className="ml-4 text-lg font-semibold text-gray-800">MatDash</span>
+          <Link href="/" className="ml-4 text-lg font-semibold text-cyan-500">
+            Conan<span className="text-blue-500">AI</span>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-4">

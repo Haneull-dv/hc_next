@@ -33,30 +33,6 @@ const Sidebar = () => {
       ),
     },
     {
-      title: "요약 재무정보",
-      href: "/dashboard/typography",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-        </svg>
-      ),
-    },
-    {
-      title: "연결 재무제표",
-      href: "/dashboard/table",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-        </svg>
-      ),
-      subMenus: [
-        { title: "연결 재무상태표", href: "/dashboard/table/financial-position" },
-        { title: "연결 포괄손익계산서", href: "/dashboard/table/income-statement" },
-        { title: "연결 자본변동표", href: "/dashboard/table/equity-change" },
-        { title: "연결 현금흐름표", href: "/dashboard/table/cash-flow" },
-      ],
-    },
-    {
       title: "재무제표",
       href: "/dashboard/form",
       icon: (
@@ -143,7 +119,13 @@ const Sidebar = () => {
     >
       <div className="p-4 border-b flex items-center">
         <Link href="/" className="flex items-center">
-          <span className="text-2xl font-bold text-indigo-600">MatDash</span>
+          <span className="text-2xl font-bold text-cyan-500">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8" />
+              <circle cx="12" cy="10" r="3" fill="currentColor" />
+            </svg>
+            Conan<span className="text-blue-500">AI</span>
+          </span>
         </Link>
       </div>
       <div className="p-4">
