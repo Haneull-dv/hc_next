@@ -251,7 +251,7 @@ export default function Home() {
       <section className="bg-[#0f172a] text-white py-16 px-6 mt-24 mb-20">
         <div className="text-center space-y-4">
           <p className="text-sm font-medium text-blue-400">실무 전문성과 창의성을 겸비한</p>
-          <h2 className="text-3xl font-bold">"Always Curious, Always Building" 철학을 갖춘<br />ConanAI 프로젝트 팀</h2>
+          <h2 className="text-3xl font-bold">"Always Curious, Always Building" 철학을 갖춘<br />ConanAI 팀</h2>
           <p className="text-gray-400 text-sm">ConanAI 프로젝트를 함께 만든 사람들입니다.</p>
         </div>
 
