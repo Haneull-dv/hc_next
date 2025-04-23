@@ -77,7 +77,7 @@ export default function SeparateBalanceSheetPage() {
     setOpenDartError(null);
 
     try {
-      const response = await fetch(`http://localhost:8085/dsdgen/dsd-auto-fetch?corp_code=${corpCode}`, {
+      const response = await fetch(`https://railwaydsdgen-production.up.railway.app/dsdgen/dsd-auto-fetch?corp_code=${corpCode}`, {
         method: 'GET',
         cache: 'no-store',
       });
@@ -134,7 +134,7 @@ export default function SeparateBalanceSheetPage() {
       const formData = new FormData();
       formData.append('file', xbrlFile);
 
-      const uploadResponse = await fetch('http://localhost:8087/xbrlgen/upload', {
+      const uploadResponse = await fetch('https://railwayxbrlgen-production.up.railway.app/xbrlgen/upload', {
         method: 'POST',
         body: formData,
       });
@@ -153,7 +153,7 @@ export default function SeparateBalanceSheetPage() {
       const fileName = uploadData.xbrl_path.replace('xbrl_output/', '');
       
       // 2. 변환된 JSON을 기반으로 XML 다운로드
-      const downloadResponse = await fetch(`http://localhost:8087/xbrlgen/download/${fileName}`, {
+      const downloadResponse = await fetch(`https://railwayxbrlgen-production.up.railway.app/xbrlgen/download/${fileName}`, {
         method: 'GET',
       });
 
@@ -261,7 +261,7 @@ export default function SeparateBalanceSheetPage() {
     formData.append('file', dsdFile);
 
     try {
-      const response = await fetch(`http://localhost:8085/xsldsd/upload?sheet_name=${sheetName}`, {
+      const response = await fetch(`https://railwaydsdgen-production.up.railway.app/xsldsd/upload?sheet_name=${sheetName}`, {
         method: 'POST',
         body: formData,
       });
