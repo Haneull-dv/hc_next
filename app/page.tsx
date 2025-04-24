@@ -54,7 +54,7 @@ export default function Home() {
             <div className="absolute top-4 left-4 text-5xl text-indigo-500/30 font-serif">❝</div>
             <div className="pl-8 pt-6 relative z-10">
               <p className="text-sm font-light text-gray-200 leading-relaxed mb-4">
-                DSD 보고서는 전부 수기로 key-in해야 해서 시간이 오래 걸리고 단위(백만) 조정도 자주 해야 해요. 그걸 AI가 자동 조정해주면 정말 좋겠어요.
+                DSD 보고서는 복붙이 원활히 되지 않아 시간이 오래 걸리고, 단위(백만) 조정도 자주 해야 해요. 그걸 AI가 자동 조정해주면 정말 좋겠어요.
               </p>
               <p className="text-sm font-light text-gray-200 leading-relaxed mb-6">
                 XBRL, DSD 모두 공동작업이 안 돼서 메일로 파일 주고받는 것도 너무 불편합니다.
