@@ -28,6 +28,22 @@ export default function Home() {
           더 이상 일일이 입력하지 마세요. 당신은 더 가치 있는 인력입니다
         </p>
         
+        {/* 데모 비디오 */}
+        <div className="w-full mx-auto mb-12 relative overflow-visible aspect-video">
+          <video 
+            src="/videos/demo.mp4"
+            className="w-full h-auto object-cover rounded-xl shadow-lg z-10"
+            autoPlay
+            loop
+            muted
+            playsInline
+            controls
+            controlsList="nodownload"
+            preload="metadata"
+            style={{ position: 'relative', zIndex: 10 }}
+          />
+        </div>
+        
         {/* 실무자 고통 설명 카드 */}
         <div className="mt-20 mb-20 max-w-3xl mx-auto rounded-xl bg-gradient-to-br from-[#1c2444]/80 to-[#111827]/80 border border-indigo-500/20 p-10 text-left shadow-xl">
           <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent mb-6">AI로 실무자의 고통을 덜다</h3>
