@@ -214,12 +214,14 @@ export default function FinancialSection() {
           >
             시연 해보기
           </button>
-          <button
-            onClick={() => window.location.href = '/features/financial'}
-            className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0"
+          <a
+            href="/pdf/financial-proposal.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0 cursor-pointer"
           >
-            상세 기능 보기
-          </button>
+            상세 기획안 보기
+          </a>
         </div>
       </section>
     </>

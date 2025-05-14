@@ -94,15 +94,15 @@ export default function EsgSection() {
           </h3>
           <div className="space-y-4">
             <p className="text-base text-gray-300 leading-relaxed">
-              - 공시 기준은 이미 국제적 정합성을 요구하고 있습니다.
-              대응하지 않으면 투자자 커뮤니케이션에서 도태될 수 있습니다.
+              - ESG 공시 기준은 이미 국제적으로 정교한 기준을 요구하고 있으며, 
+              이에 선제적으로 대응하는 기업일수록 투자자와의 신뢰 형성에 유리한 위치를 점할 수 있습니다.
             </p>
             <p className="text-base text-gray-300 leading-relaxed">
-              - 완전자동화는 허상입니다. 그러나 반복 작업을 최소화하고,
-              규제기준을 시스템화하면 업무 정확성과 보고 품질은 극적으로 향상됩니다.
+              - 완전한 자동화를 추구하기보다, 반복 업무를 줄이고 공시 기준을 구조화함으로써 
+              업무 효율성과 보고 품질을 균형 있게 향상시킬 수 있습니다.
             </p>
             <p className="text-base text-gray-300 leading-relaxed font-semibold mt-4">
-              ConanAI는 기술 중심이 아닌, 공시 실무 중심의 자동화 시스템을 지향합니다.
+            ConanAI는 기술적 정밀성과 실무 관점을 결합한 하이브리드 자동화 시스템을 지향합니다.
             </p>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function EsgSection() {
             rel="noopener noreferrer"
             className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0 cursor-pointer"
           >
-            상세 기능 보기
+            상세 기획안 보기
           </a>
         </div>
       </section>
