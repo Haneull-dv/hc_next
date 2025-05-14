@@ -71,34 +71,38 @@ export default function Home() {
       </section>
 
       {/* 고객 문의 섹션 */}
-      <section className="w-full bg-[#1a1a2e] text-white py-14 px-6 border-t border-gray-800">
+      <section className="w-full bg-[#1a1a2e] text-white py-14 px-4 md:px-6 border-t border-gray-800">
         <div className="max-w-screen-xl mx-auto text-center space-y-6">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl md:text-2xl font-bold">
             🗣 구현이 필요하신 기능이 있으신가요?
           </h2>
           
-          <p className="text-base md:text-lg text-gray-300">
-            더 나은 서비스를 제공하기 위해 사용자님의 소중한 피드백을 기다리고 있습니다.<br />
+          <p className="text-sm md:text-base lg:text-lg text-gray-300 break-words">
+            더 나은 서비스를 제공하기 위해 사용자님의 소중한 피드백을 기다리고 있습니다.<br className="hidden md:block" />
             아래 담당자에게 문의해 주시면 신속히 응답드리겠습니다.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-4 text-left pt-8 px-4 md:px-12 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 text-left pt-8 px-4 md:px-12 max-w-3xl mx-auto">
             {/* 천준영 */}
-            <div className="space-y-2 pl-10 md:pl-12">
-              <h3 className="text-lg font-semibold text-white">📩 천준영</h3>
-              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:junyeongc1000@gmail.com" className="underline hover:text-blue-300 transition-colors">junyeongc1000@gmail.com</a></p>
-              <p className="text-base font-medium text-gray-300">전화: 010-2782-1102</p>
+            <div className="space-y-2 pl-4 md:pl-12">
+              <h3 className="text-base md:text-lg font-semibold text-white">📩 천준영</h3>
+              <p className="text-sm md:text-base font-medium text-gray-300 break-words">
+                메일: <a href="mailto:junyeongc1000@gmail.com" className="underline hover:text-blue-300 transition-colors">junyeongc1000@gmail.com</a>
+              </p>
+              <p className="text-sm md:text-base font-medium text-gray-300">전화: 010-2782-1102</p>
             </div>
 
             {/* 김하늘 */}
-            <div className="space-y-2 pl-14 md:pl-24">
-              <h3 className="text-lg font-semibold text-white">📩 김하늘</h3>
-              <p className="text-base font-medium text-gray-300">메일: <a href="mailto:haneull.dv@gmail.com" className="underline hover:text-blue-300 transition-colors">haneull.dv@gmail.com</a></p>
-              <p className="text-base font-medium text-gray-300">전화: 010-9165-7262</p>
+            <div className="space-y-2 pl-4 md:pl-12">
+              <h3 className="text-base md:text-lg font-semibold text-white">📩 김하늘</h3>
+              <p className="text-sm md:text-base font-medium text-gray-300 break-words">
+                메일: <a href="mailto:haneull.dv@gmail.com" className="underline hover:text-blue-300 transition-colors">haneull.dv@gmail.com</a>
+              </p>
+              <p className="text-sm md:text-base font-medium text-gray-300">전화: 010-9165-7262</p>
             </div>
           </div>
 
-          <p className="text-sm text-gray-400 mt-8">
+          <p className="text-xs md:text-sm text-gray-400 mt-8">
             © ConanAI 팀은 수집된 정보를 피드백 응답 및 서비스 개선 이외의 목적으로 사용하지 않습니다.
           </p>
         </div>

@@ -70,42 +70,42 @@ export default function FinancialSection() {
         </div>
       </section>
       {/* 실무자 고충 vs 자동화 솔루션 */}
-      <section className="max-w-6xl mx-auto mb-20">
+      <section className="max-w-6xl mx-auto mb-20 px-4">
         <div className="relative w-full text-center mb-12 mt-20">
           <p className="absolute inset-0 flex items-center justify-center text-sm text-gray-500 opacity-20 z-0 blur-sm max-w-3xl mx-auto">
             현재도 수많은 DART 공시 담당자들이 반복되는 작성 환경에 불편함을 호소하고 있습니다.
           </p>
-          <h2 className="text-3xl md:text-4xl font-extrabold relative z-10 flex justify-center items-center">
-            <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent px-6">실무자 고충</span>
-            <span className="text-gray-500 text-2xl opacity-80 px-4">vs</span>
-            <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent px-6">자동화 솔루션</span>
+          <h2 className="text-2xl md:text-4xl font-extrabold relative z-10 flex flex-col md:flex-row justify-center items-center gap-4">
+            <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">실무자 고충</span>
+            <span className="text-gray-500 text-xl md:text-2xl opacity-80">vs</span>
+            <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">자동화 솔루션</span>
           </h2>
         </div>
         <div className="space-y-10">
           {/* 행 1: 이중입력 문제 */}
-          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-6 md:gap-10 items-center justify-items-center max-w-6xl mx-auto">
             {/* 왼쪽 - 문제 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">DSD/XBRL 이중입력</p>
-                <p className="text-gray-300 leading-relaxed">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">DSD/XBRL 이중입력</p>
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                   동일 재무정보를 DSD와 XBRL에 각각 입력하며 발생하는 시간 낭비와 데이터 불일치로 인한 검증 문제
                 </p>
               </div>
             </div>
             {/* 가운데 - 화살표 */}
-            <div className="flex items-center justify-center">
+            <div className="hidden md:flex items-center justify-center">
               <span className="text-gray-300 text-3xl opacity-90">➜</span>
             </div>
             {/* 오른쪽 - 솔루션 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">엑셀 업로드 → XBRL & DSD 자동 생성</p>
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">엑셀 업로드 → XBRL & DSD 자동 생성</p>
                 <div className="space-y-3">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     엑셀 재무제표 파일 업로드 한 번으로 XBRL 및 DSD 문서 동시 처리
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     데이터 일관성 자동 검증 및 오류 알림으로 이중 입력 부담 해소
                   </p>
                 </div>
@@ -113,29 +113,29 @@ export default function FinancialSection() {
             </div>
           </div>
           {/* 행 2: 텍소노미 매핑 */}
-          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-6 md:gap-10 items-center justify-items-center max-w-6xl mx-auto">
             {/* 왼쪽 - 문제 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">텍소노미 매핑 오류</p>
-                <p className="text-gray-300 leading-relaxed">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">텍소노미 매핑 오류</p>
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                   적절한 텍소노미 요소 선정 어려움과 속성 불일치로 인한 오류 발생 및 검증 실패
                 </p>
               </div>
             </div>
             {/* 가운데 - 화살표 */}
-            <div className="flex items-center justify-center">
+            <div className="hidden md:flex items-center justify-center">
               <span className="text-gray-300 text-3xl opacity-90">➜</span>
             </div>
             {/* 오른쪽 - 솔루션 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">AI 기반 텍소노미 추천 시스템</p>
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">AI 기반 텍소노미 추천 시스템</p>
                 <div className="space-y-3">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     기간 속성 자동 필터링 및 최적화로 오류 발생 최소화
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     유사 계정과목 자동 매핑 및 비교 분석으로 텍소노미 선택 정확도 향상
                   </p>
                 </div>
@@ -143,29 +143,29 @@ export default function FinancialSection() {
             </div>
           </div>
           {/* 행 3: UI 비직관성 */}
-          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-6 md:gap-10 items-center justify-items-center max-w-6xl mx-auto">
             {/* 왼쪽 - 문제 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">편집기 UI 비직관성</p>
-                <p className="text-gray-300 leading-relaxed">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">편집기 UI 비직관성</p>
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                   낯선 인터페이스와 비협업적 환경으로 인한 반복 수정 및 효율성 저하
                 </p>
               </div>
             </div>
             {/* 가운데 - 화살표 */}
-            <div className="flex items-center justify-center">
+            <div className="hidden md:flex items-center justify-center">
               <span className="text-gray-300 text-3xl opacity-90">➜</span>
             </div>
             {/* 오른쪽 - 솔루션 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">협업형 인터페이스와 버전 관리</p>
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">협업형 인터페이스와 버전 관리</p>
                 <div className="space-y-3">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     엑셀과 유사한 직관적 웹 기반 인터페이스로 학습 곡선 최소화
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     실시간 협업 및 코멘트 기능 내장, 버전 관리 및 변경 이력 추적 시스템
                   </p>
                 </div>
@@ -173,29 +173,29 @@ export default function FinancialSection() {
             </div>
           </div>
           {/* 행 4: 반복 검증 */}
-          <div className="grid grid-cols-[1fr,auto,1fr] gap-10 items-center justify-items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-6 md:gap-10 items-center justify-items-center max-w-6xl mx-auto">
             {/* 왼쪽 - 문제 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">반복 검증 작업</p>
-                <p className="text-gray-300 leading-relaxed">
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-red-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">반복 검증 작업</p>
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                   계정 간 수치 대조, 전기 대비 변동 확인 등 수작업 검증으로 인한 리소스 낭비
                 </p>
               </div>
             </div>
             {/* 가운데 - 화살표 */}
-            <div className="flex items-center justify-center">
+            <div className="hidden md:flex items-center justify-center">
               <span className="text-gray-300 text-3xl opacity-90">➜</span>
             </div>
             {/* 오른쪽 - 솔루션 카드 */}
             <div className="w-full max-w-md">
-              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
-                <p className="font-semibold text-xl mb-4 text-white">자동 검증 및 분석 리포트</p>
+              <div className="bg-gradient-to-br from-[#1c2444] to-[#111827] p-6 md:p-8 rounded-xl shadow border border-blue-500/20 transform transition-transform hover:translate-y-[-4px] h-full flex flex-col">
+                <p className="font-semibold text-lg md:text-xl mb-4 text-white break-words">자동 검증 및 분석 리포트</p>
                 <div className="space-y-3">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     회계 원칙 기반 자동 검증(자산=부채+자본 등) 및 전기 대비 증감 자동 분석
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                     오류 메시지 자동 해석 및 수정 가이드 제공으로 검증 시간 단축
                   </p>
                 </div>

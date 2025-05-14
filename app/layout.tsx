@@ -33,6 +33,12 @@ export const metadata: Metadata = {
     description: "AI 기반 XBRL/DSD 공시 자동화 시스템 – 보고서 작성부터 검증까지 자동화합니다.",
     images: ["https://conan.ai.kr/og-thumbnail.png"],
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1.0,
+    maximumScale: 1.0,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({
@@ -42,8 +48,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${poppins.variable} font-pretendard`}>
-          {children}
+      <body className={`${poppins.variable} font-pretendard overflow-x-hidden`}>
+        {children}
       </body>
     </html>
   );
