@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./styles/globals.css";
+import TopTabs from "./components/TopTabs";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -43,7 +44,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${poppins.variable} font-pretendard`}>
-          {children}
+        <TopTabs />
+        {children}
       </body>
     </html>
   );
