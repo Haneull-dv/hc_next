@@ -20,7 +20,7 @@ export default function EsgSection() {
           </h3>
           <div className="space-y-4">
             <p className="text-base text-gray-300 leading-relaxed">
-              금융위원회는 2024~2025년 연속 회의를 통해
+              금융위원회는 2024~2025년 회의를 통해
             </p>
             <ul className="list-decimal list-inside text-base text-gray-300 leading-relaxed space-y-2">
               <li>ESRS 및 ISSB 기준을 반영한 KSSB ESG 공시 기준 수립 계획을 공식화했고,</li>
@@ -117,12 +117,14 @@ export default function EsgSection() {
           >
             시연 해보기
           </button>
-          <button
-            onClick={() => window.location.href = '/features/esg'}
-            className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0"
+          <a
+            href="/pdf/esg-proposal.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-10 py-5 bg-gradient-to-r from-indigo-700 to-purple-800 rounded-xl text-lg font-semibold transform transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 focus:outline-none border border-indigo-500/30 mx-auto sm:mx-0 cursor-pointer"
           >
             상세 기능 보기
-          </button>
+          </a>
         </div>
       </section>
     </>
