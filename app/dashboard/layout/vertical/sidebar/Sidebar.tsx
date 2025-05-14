@@ -4,6 +4,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "../SidebarContext";
 
+const isActiveMenuItem = (pathname: string | null, href: string): boolean => {
+  if (!pathname) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
+const isActiveSubMenuItem = (pathname: string | null, href: string): boolean => {
+  if (!pathname) return false;
+  return pathname === href;
+};
+
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -140,7 +150,7 @@ const Sidebar = () => {
                       }
                     }}
                     className={`flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
-                      pathname === item.href || pathname.startsWith(item.href + "/")
+                      isActiveMenuItem(pathname, item.href)
                         ? "bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300"
                         : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                     }`}
@@ -163,7 +173,7 @@ const Sidebar = () => {
                             href={subItem.href}
                             onClick={(e) => handleSubMenuClick(subItem.href, e)}
                             className={`block py-1.5 px-3 rounded-md text-sm font-medium cursor-pointer transition-all ${
-                              pathname === subItem.href
+                              isActiveSubMenuItem(pathname, subItem.href)
                                 ? "text-indigo-600 dark:text-indigo-300"
                                 : "text-gray-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-200"
                             }`}
@@ -192,7 +202,7 @@ const Sidebar = () => {
                     handleMenuClick(item.href);
                   }}
                   className={`flex items-center px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
-                    pathname === item.href
+                    isActiveMenuItem(pathname, item.href)
                       ? "bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300"
                       : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
                   }`}
