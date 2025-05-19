@@ -261,7 +261,7 @@ export default function SeparateBalanceSheetPage() {
     formData.append('file', dsdFile);
 
     try {
-      const response = await fetch(`https://railwaydsdgen-production.up.railway.app/xsldsd/upload?sheet_name=${sheetName}`, {
+      const response = await fetch(`https://railwaydsdgen-production.up.railway.app/dsdgen/upload?sheet_name=${sheetName}`, {
         method: 'POST',
         body: formData,
       });
@@ -303,6 +303,30 @@ export default function SeparateBalanceSheetPage() {
     // 3번째 빈 행 필터링
     const filteredTableData = tableData.filter((row, index) => index !== 2);
     
+    // 테이블 복사 함수
+    const handleCopyTable = () => {
+      const tableElement = document.getElementById('dsd-table');
+      if (!tableElement) return;
+
+      try {
+        const range = document.createRange();
+        range.selectNode(tableElement);
+        window.getSelection()?.removeAllRanges();
+        window.getSelection()?.addRange(range);
+        
+        const success = document.execCommand('copy');
+        window.getSelection()?.removeAllRanges();
+        
+        if (success) {
+          alert('표가 복사되었습니다!');
+        } else {
+          alert('복사 실패');
+        }
+      } catch (err) {
+        alert('복사 실패');
+      }
+    };
+    
     return (
       <div>
         <div style={{ textAlign: 'right', marginBottom: '5px' }}>
@@ -310,7 +334,26 @@ export default function SeparateBalanceSheetPage() {
             (단위: 백만원)
           </span>
         </div>
-        <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <div style={{ marginBottom: '10px' }}>
+          <button
+            onClick={handleCopyTable}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#4f46e5',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontFamily: '굴림'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4338ca'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#4f46e5'}
+          >
+            표 전체 복사
+          </button>
+        </div>
+        <table id="dsd-table" style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>
               {headers.map((header, index) => (
