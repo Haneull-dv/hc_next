@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./styles/globals.css";
 
@@ -7,6 +7,13 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--poppins",
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: "Conan AI",
@@ -32,12 +39,6 @@ export const metadata: Metadata = {
     title: "Conan AI – XBRL / DSD 공시 자동화",
     description: "AI 기반 XBRL/DSD 공시 자동화 시스템 – 보고서 작성부터 검증까지 자동화합니다.",
     images: ["https://conan.ai.kr/og-thumbnail.png"],
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1.0,
-    maximumScale: 1.0,
-    userScalable: false,
   },
 };
 
