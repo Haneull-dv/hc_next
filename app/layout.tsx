@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./styles/globals.css";
+import NavBar from "./components/NavBar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -49,8 +50,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${poppins.variable} font-pretendard overflow-x-hidden`}>
-        {children}
+      <body className={`${poppins.variable} font-pretendard bg-white text-[#23272F] min-h-screen`}>
+        <NavBar />
+        <main className="min-h-[calc(100vh-64px)] bg-white">
+          {children}
+        </main>
       </body>
     </html>
   );
