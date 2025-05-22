@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useRef } from 'react';
 import Tabs from './components/Tabs';
 import Link from 'next/link';
+import ChatbotLauncher from './components/ChatbotLauncher';
 
 const SLIDES = [
   { label: '업계 주가', href: '/features/stock' },
@@ -71,6 +72,7 @@ export default function Home() {
           <svg width="24" height="24" fill="none" stroke="#5D5FEF" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
+      <ChatbotLauncher />
     </div>
   );
 }
