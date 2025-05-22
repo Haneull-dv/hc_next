@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ChatAvatar from './ChatAvatar';
 import ChatbotWindow from './ChatbotWindow';
 
 const ChatbotLauncher: React.FC = () => {
@@ -23,7 +22,11 @@ const ChatbotLauncher: React.FC = () => {
         aria-label="챗봇 열기"
         style={{ boxShadow: '0 4px 16px rgba(60,60,120,0.18)' }}
       >
-        <ChatAvatar size="lg" />
+        <img
+          src="/images/chatbot-avatar.png"
+          alt="Conan 챗봇 아바타"
+          className="w-16 h-16 rounded-full shadow-lg"
+        />
       </button>
       <ChatbotWindow isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
