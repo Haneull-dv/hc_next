@@ -1,2 +1,2 @@
-import EmptyPage from '../../components/EmptyPage';
-export default EmptyPage; 
+import StockTrendTable from '../../components/StockTrendTable';
+export default StockTrendTable; 
