@@ -44,10 +44,11 @@ export default function StockTrendTable() {
 
   const fetchStocks = async () => {
     try {
-      const response = await fetch("http://localhost:8081/api/stocktrend/stocks");
+      const response = await fetch("https://railwaystocktrend-production.up.railway.app/api/stocktrend/stocks");
       const data = await response.json();
-      setStocks(data);
-      setFilteredStocks(data);
+      console.log("💌API로 받은 데이터:", data);
+      setStocks(data.companies);
+      setFilteredStocks(data.companies);
     } catch (error) {
       console.error("Error fetching stocks:", error);
     }
