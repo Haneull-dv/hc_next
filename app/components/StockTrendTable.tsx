@@ -43,6 +43,7 @@ export default function StockTrendTable() {
   const [sortField, setSortField] = useState<SortField>("rank");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const itemsPerPage = 10;
 
   const industries = [
@@ -66,6 +67,7 @@ export default function StockTrendTable() {
 
   const fetchStocks = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch("https://railwaystocktrend-production.up.railway.app/api/stocktrend/stocks");
       const data = await response.json();
       console.log("💌API로 받은 데이터:", data);
@@ -74,6 +76,8 @@ export default function StockTrendTable() {
       console.log("✅ filteredStocks 상태:", filteredStocks);
     } catch (error) {
       console.error("Error fetching stocks:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -164,19 +168,21 @@ export default function StockTrendTable() {
             <ScrollArea className="h-[600px] rounded-2xl">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="border-b border-gray-200">
                     <TableHead
-                      className="cursor-pointer"
+                      className="cursor-pointer h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-12 whitespace-nowrap"
                       onClick={() => handleSort("rank")}
                     >
-                      <div className="flex items-center gap-2">
-                        순위
+                      <div className="flex items-center justify-center gap-1">
+                        <span>순위</span>
                         <ArrowUpDown className="h-4 w-4" />
                       </div>
                     </TableHead>
-                    <TableHead>회사명</TableHead>
+                    <TableHead className="h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-28">
+                      회사명
+                    </TableHead>
                     <TableHead
-                      className="cursor-pointer"
+                      className="cursor-pointer h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-32"
                       onClick={() => handleSort("marketCap")}
                     >
                       <div className="flex items-center gap-2">
@@ -184,9 +190,11 @@ export default function StockTrendTable() {
                         <ArrowUpDown className="h-4 w-4" />
                       </div>
                     </TableHead>
-                    <TableHead>현재가</TableHead>
+                    <TableHead className="h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-24">
+                      현재가
+                    </TableHead>
                     <TableHead
-                      className="cursor-pointer"
+                      className="cursor-pointer h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-24"
                       onClick={() => handleSort("change")}
                     >
                       <div className="flex items-center gap-2">
@@ -194,61 +202,105 @@ export default function StockTrendTable() {
                         <ArrowUpDown className="h-4 w-4" />
                       </div>
                     </TableHead>
-                    <TableHead>공시내용 및 주가 변동 원인</TableHead>
+                    <TableHead className="h-12 align-top px-4 py-3 text-left text-sm font-medium text-gray-500 w-auto">
+                      공시내용 및 주가 변동 원인
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {paginatedStocks.map((stock) => (
-                    <TableRow
-                      key={`${stock.company}-${stock.rank}`}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <TableCell>{stock.rank}</TableCell>
-                      <TableCell>{stock.company}</TableCell>
-                      <TableCell>{stock.marketCap}</TableCell>
-                      <TableCell>{stock.price.toLocaleString()}</TableCell>
-                      <TableCell
-                        className={
-                          stock.change > 0
-                            ? "text-green-600"
-                            : stock.change < 0
-                            ? "text-red-600"
-                            : ""
-                        }
-                      >
-                        {stock.change > 0 ? "+" : ""}
-                        {stock.change}%
+                  {isLoading ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="h-[600px] text-center">
+                        <div className="flex items-center justify-center h-full text-gray-500">
+                          <div className="flex flex-col items-center gap-2">
+                            <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                            <span>로딩 중입니다...</span>
+                          </div>
+                        </div>
                       </TableCell>
-                      <TableCell>{stock.announcement || "-"}</TableCell>
                     </TableRow>
-                  ))}
+                  ) : (
+                    paginatedStocks.map((stock) => (
+                      <TableRow
+                        key={`${stock.company}-${stock.rank}`}
+                        className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
+                      >
+                        <TableCell className="align-top px-4 py-3 text-sm w-12 text-center">
+                          {stock.rank}
+                        </TableCell>
+                        <TableCell className="align-top px-4 py-3 text-sm font-medium w-28">
+                          {stock.company}
+                        </TableCell>
+                        <TableCell className="align-top px-4 py-3 text-sm w-32">
+                          {stock.marketCap}
+                        </TableCell>
+                        <TableCell className="align-top px-4 py-3 text-sm w-24">
+                          {stock.price.toLocaleString()}
+                        </TableCell>
+                        <TableCell
+                          className={`align-top px-4 py-3 text-sm w-24 ${
+                            stock.change > 0
+                              ? "text-green-600"
+                              : stock.change < 0
+                              ? "text-red-600"
+                              : ""
+                          }`}
+                        >
+                          {stock.change > 0 ? "+" : ""}
+                          {stock.change}%
+                        </TableCell>
+                        <TableCell className="align-top px-4 py-3 text-sm whitespace-pre-line break-words min-h-[3rem] w-auto">
+                          {stock.announcement ? (
+                            <div className="space-y-2.5 leading-relaxed">
+                              {stock.announcement.split(/\n/).map((line, index) => (
+                                <div key={index} className="pl-4">
+                                  {line}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            "-"
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </ScrollArea>
 
-            <div className="flex justify-center gap-2 mt-4">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-1 rounded-lg ${
-                    currentPage === page
-                      ? "bg-gray-900 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
+            {!isLoading && (
+              <div className="flex justify-center gap-2 mt-4">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-1 rounded-lg ${
+                      currentPage === page
+                        ? "bg-gray-900 text-white"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            )}
           </>
         ) : (
           <div className="flex items-center justify-center h-[600px] text-gray-500">
-            {selectedIndustry === "_ALL" 
-              ? "산업을 선택해주세요."
-              : selectedIndustry === "게임·엔터테인먼트" 
-                ? "데이터가 없습니다."
-                : "현재 게임·엔터테인먼트 산업만 지원됩니다."}
+            {isLoading ? (
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                <span>로딩 중입니다...</span>
+              </div>
+            ) : (
+              selectedIndustry === "_ALL" 
+                ? "산업을 선택해주세요."
+                : selectedIndustry === "게임·엔터테인먼트" 
+                  ? "데이터가 없습니다."
+                  : "현재 게임·엔터테인먼트 산업만 지원됩니다."
+            )}
           </div>
         )}
       </div>
