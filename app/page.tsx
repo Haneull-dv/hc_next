@@ -10,11 +10,8 @@ import ChatbotLauncher from './components/ChatbotLauncher';
 const SLIDES = [
   { label: '업계 주가', href: '/features/stock' },
   { label: '재무 DSD', href: '/dashboard/table/separate-balancesheet' },
-  { label: 'ESG DSD', href: '/features/esg-dsd' },
-  { label: '공시우수법인 분석', href: '/features/esg-xbrl' },
-  { label: 'IR 응대 도우미', href: '/features/ir-helper' },
   { label: '증권리포트 분석', href: '/features/report-analysis' },
-  { label: '규제 모니터링', href: '/features/disclosure-monitor' },
+  { label: 'ESG DSD', href: '/features/esg-dsd' },
 ];
 
 export default function Home() {
