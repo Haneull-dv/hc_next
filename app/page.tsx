@@ -8,8 +8,9 @@ import Link from 'next/link';
 import ChatbotLauncher from './components/ChatbotLauncher';
 
 const SLIDES = [
-  { label: '업계 주가', href: '/features/stock' },
+  { label: '재무제표 검증', href: '/features/fs-verification' },
   { label: '재무 DSD', href: '/dashboard/table/separate-balancesheet' },
+  { label: '업계 주가', href: '/features/stock' },
   { label: '증권리포트 분석', href: '/features/report-analysis' },
   { label: 'ESG DSD', href: '/features/esg-dsd' },
 ];
